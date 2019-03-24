@@ -174,7 +174,7 @@ where
                 free: size - allocate,
             });
             count -= allocate;
-            self.total += count as u64;
+            self.total += allocate as u64;
         }
 
         Ok(())
