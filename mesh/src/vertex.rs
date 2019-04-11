@@ -33,7 +33,7 @@ where
 impl AsAttribute for Position {
     const NAME: &'static str = "position";
     const SIZE: u32 = 12;
-    const FORMAT: gfx_hal::format::Format = gfx_hal::format::Format::Rgb32Float;
+    const FORMAT: gfx_hal::format::Format = gfx_hal::format::Format::Rgb32Sfloat;
 }
 
 /// Type for color attribute of vertex
@@ -52,7 +52,7 @@ where
 impl AsAttribute for Color {
     const NAME: &'static str = "color";
     const SIZE: u32 = 16;
-    const FORMAT: gfx_hal::format::Format = gfx_hal::format::Format::Rgba32Float;
+    const FORMAT: gfx_hal::format::Format = gfx_hal::format::Format::Rgba32Sfloat;
 }
 
 /// Type for texture coord attribute of vertex
@@ -72,7 +72,7 @@ where
 impl AsAttribute for Normal {
     const NAME: &'static str = "normal";
     const SIZE: u32 = 12;
-    const FORMAT: gfx_hal::format::Format = gfx_hal::format::Format::Rgb32Float;
+    const FORMAT: gfx_hal::format::Format = gfx_hal::format::Format::Rgb32Sfloat;
 }
 
 /// Type for tangent attribute of vertex
@@ -92,7 +92,7 @@ where
 impl AsAttribute for Tangent {
     const NAME: &'static str = "tangent";
     const SIZE: u32 = 12;
-    const FORMAT: gfx_hal::format::Format = gfx_hal::format::Format::Rgb32Float;
+    const FORMAT: gfx_hal::format::Format = gfx_hal::format::Format::Rgb32Sfloat;
 }
 
 /// Type for texture coord attribute of vertex
@@ -112,7 +112,7 @@ where
 impl AsAttribute for TexCoord {
     const NAME: &'static str = "tex_coord";
     const SIZE: u32 = 8;
-    const FORMAT: gfx_hal::format::Format = gfx_hal::format::Format::Rg32Float;
+    const FORMAT: gfx_hal::format::Format = gfx_hal::format::Format::Rg32Sfloat;
 }
 
 /// Vertex format contains information to initialize graphics pipeline
@@ -131,11 +131,11 @@ impl<'a> VertexFormat<'a> {
     /// Convert into gfx digestible type.
     pub fn gfx_vertex_input_desc(
         &self,
-        rate: gfx_hal::pso::InstanceRate,
+        rate: gfx_hal::pso::VertexInputRate,
     ) -> (
         Vec<gfx_hal::pso::Element<gfx_hal::format::Format>>,
         gfx_hal::pso::ElemStride,
-        gfx_hal::pso::InstanceRate,
+        gfx_hal::pso::VertexInputRate,
     ) {
         (self.attributes.clone().into_owned(), self.stride, rate)
     }
@@ -457,19 +457,19 @@ impl AsVertex for Transform {
     const VERTEX: VertexFormat<'static> = VertexFormat {
         attributes: Cow::Borrowed(&[
             Attribute {
-                format: gfx_hal::format::Format::Rgba32Float,
+                format: gfx_hal::format::Format::Rgba32Sfloat,
                 offset: 0,
             },
             Attribute {
-                format: gfx_hal::format::Format::Rgba32Float,
+                format: gfx_hal::format::Format::Rgba32Sfloat,
                 offset: 16,
             },
             Attribute {
-                format: gfx_hal::format::Format::Rgba32Float,
+                format: gfx_hal::format::Format::Rgba32Sfloat,
                 offset: 32,
             },
             Attribute {
-                format: gfx_hal::format::Format::Rgba32Float,
+                format: gfx_hal::format::Format::Rgba32Sfloat,
                 offset: 48,
             },
         ]),

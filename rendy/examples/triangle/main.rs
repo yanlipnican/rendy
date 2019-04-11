@@ -68,9 +68,9 @@ where
     ) -> Vec<(
         Vec<gfx_hal::pso::Element<gfx_hal::format::Format>>,
         gfx_hal::pso::ElemStride,
-        gfx_hal::pso::InstanceRate,
+        gfx_hal::pso::VertexInputRate,
     )> {
-        vec![PosColor::VERTEX.gfx_vertex_input_desc(0)]
+        vec![PosColor::VERTEX.gfx_vertex_input_desc(gfx_hal::pso::VertexInputRate::Vertex)]
     }
 
     fn depth_stencil(&self) -> Option<gfx_hal::pso::DepthStencilDesc> {

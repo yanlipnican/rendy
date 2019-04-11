@@ -116,9 +116,9 @@ where
     ) -> Vec<(
         Vec<gfx_hal::pso::Element<gfx_hal::format::Format>>,
         gfx_hal::pso::ElemStride,
-        gfx_hal::pso::InstanceRate,
+        gfx_hal::pso::VertexInputRate,
     )> {
-        vec![Color::VERTEX.gfx_vertex_input_desc(0)]
+        vec![Color::VERTEX.gfx_vertex_input_desc(gfx_hal::pso::VertexInputRate::Vertex)]
     }
 
     fn load_shader_set<'a>(

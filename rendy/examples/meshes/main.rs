@@ -153,11 +153,11 @@ where
     ) -> Vec<(
         Vec<gfx_hal::pso::Element<gfx_hal::format::Format>>,
         gfx_hal::pso::ElemStride,
-        gfx_hal::pso::InstanceRate,
+        gfx_hal::pso::VertexInputRate,
     )> {
         vec![
-            PosColorNorm::VERTEX.gfx_vertex_input_desc(0),
-            Transform::VERTEX.gfx_vertex_input_desc(1),
+            PosColorNorm::VERTEX.gfx_vertex_input_desc(gfx_hal::pso::VertexInputRate::Vertex),
+            Transform::VERTEX.gfx_vertex_input_desc(gfx_hal::pso::VertexInputRate::Instance(1)),
         ]
     }
 

@@ -64,7 +64,7 @@ where
     /// You can query the real image count and present mode which will be used with
     /// `PresentBuilder::image_count()` and `PresentBuilder::present_mode()`.
     pub fn builder(factory: &Factory<B>, surface: Surface<B>, image: ImageId) -> PresentBuilder<B> {
-        let (caps, _f, present_modes_caps, _a) = factory.get_surface_compatibility(&surface);
+        let (caps, _f, present_modes_caps) = factory.get_surface_compatibility(&surface);
 
         let img_count_caps = caps.image_count;
         let image_count = 3.min(img_count_caps.end).max(img_count_caps.start);

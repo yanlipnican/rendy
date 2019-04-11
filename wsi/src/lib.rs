@@ -150,7 +150,7 @@ where
 
     /// Get surface ideal format.
     pub unsafe fn format(&self, physical_device: &B::PhysicalDevice) -> gfx_hal::format::Format {
-        let (_capabilities, formats, _present_modes, _alpha) =
+        let (_capabilities, formats, _present_modes) =
             gfx_hal::Surface::compatibility(&self.raw, physical_device);
         let formats = formats.unwrap();
 
@@ -179,7 +179,6 @@ where
         gfx_hal::window::SurfaceCapabilities,
         Option<Vec<gfx_hal::format::Format>>,
         Vec<gfx_hal::PresentMode>,
-        Vec<gfx_hal::CompositeAlpha>,
     ) {
         gfx_hal::Surface::compatibility(&self.raw, physical_device)
     }
@@ -233,7 +232,7 @@ unsafe fn create_swapchain<B: Backend>(
     present_mode: gfx_hal::PresentMode,
     usage: gfx_hal::image::Usage,
 ) -> Result<(B::Swapchain, Backbuffer<B>), failure::Error> {
-    let (capabilities, formats, present_modes, alpha) = surface.compatibility(physical_device);
+    let (capabilities, formats, present_modes) = surface.compatibility(physical_device);
 
     if !present_modes.contains(&present_mode) {
         log::warn!(
@@ -312,15 +311,16 @@ unsafe fn create_swapchain<B: Backend>(
             image_count,
             image_layers: 1,
             image_usage: usage,
-            composite_alpha: alpha
-                .into_iter()
-                .max_by_key(|alpha| match alpha {
-                    gfx_hal::window::CompositeAlpha::Inherit => 3,
-                    gfx_hal::window::CompositeAlpha::Opaque => 2,
-                    gfx_hal::window::CompositeAlpha::PreMultiplied => 1,
-                    gfx_hal::window::CompositeAlpha::PostMultiplied => 0,
-                })
-                .expect("No CompositeAlpha modes supported"),
+            composite_alpha: [
+                gfx_hal::window::CompositeAlpha::INHERIT,
+                gfx_hal::window::CompositeAlpha::OPAQUE,
+                gfx_hal::window::CompositeAlpha::PREMULTIPLIED,
+                gfx_hal::window::CompositeAlpha::POSTMULTIPLIED,
+            ]
+            .iter()
+            .find(|&bit| capabilities.composite_alpha & *bit == *bit)
+            .cloned()
+            .expect("No CompositeAlpha modes supported"),
         },
         None,
     )?;
@@ -512,7 +512,8 @@ where
                 .as_mut()
                 .ok_or(gfx_hal::AcquireError::OutOfDate)?,
             !0,
-            gfx_hal::FrameSync::Semaphore(signal),
+            Some(signal),
+            None,
         )?;
 
         Ok(NextImages {

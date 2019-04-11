@@ -17,7 +17,7 @@ use {
             present::PresentNode, render::*, Graph, GraphBuilder, GraphContext, NodeBuffer,
             NodeImage,
         },
-        memory::{Dynamic},
+        memory::Dynamic,
         mesh::{AsVertex, PosTex},
         resource::{Buffer, BufferInfo, DescriptorSet, DescriptorSetLayout, Escape, Handle},
         shader::{Shader, ShaderKind, SourceLanguage, StaticShaderInfo},
@@ -78,9 +78,9 @@ where
     ) -> Vec<(
         Vec<gfx_hal::pso::Element<gfx_hal::format::Format>>,
         gfx_hal::pso::ElemStride,
-        gfx_hal::pso::InstanceRate,
+        gfx_hal::pso::VertexInputRate,
     )> {
-        vec![PosTex::VERTEX.gfx_vertex_input_desc(0)]
+        vec![PosTex::VERTEX.gfx_vertex_input_desc(gfx_hal::pso::VertexInputRate::Vertex)]
     }
 
     fn load_shader_set<'b>(

@@ -11,6 +11,6 @@ categories = ["rendering"]
 description = "Rendy's node synchronization tool"
 
 [dependencies]
-gfx-hal = "0.1"
+gfx-hal = { git = "https://github.com/gfx-rs/gfx.git" }
 fnv = "1.0"
 log = "0.4"
