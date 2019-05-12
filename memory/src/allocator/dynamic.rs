@@ -535,7 +535,7 @@ where
 {
     fn from_memory(block_size: u64, memory: Memory<B>, mapping: Option<NonNull<u8>>) -> Self {
         let blocks = memory.size() / block_size;
-        debug_assert!(blocks < MAX_BLOCKS_PER_CHUNK.into());
+        debug_assert!(blocks <= MAX_BLOCKS_PER_CHUNK as u64);
 
         let high_bit = 1 << (blocks - 1);
 
@@ -547,7 +547,7 @@ where
 
     fn from_block(block_size: u64, chunk_block: DynamicBlock<B>) -> Self {
         let blocks = chunk_block.size() / block_size;
-        debug_assert!(blocks < MAX_BLOCKS_PER_CHUNK as u64);
+        debug_assert!(blocks <= MAX_BLOCKS_PER_CHUNK as u64);
 
         let high_bit = 1 << (blocks - 1);
 
